@@ -32,4 +32,15 @@ class CommentRepository extends \Core\Repository\Repository
 
         return $this->find($this->pdo->lastInsertId());
     }
+
+    public function edit(object $comment):object
+    {
+        $query = $this->pdo->prepare("UPDATE $this->tableName SET content = :content WHERE id = :id");
+        $query->execute([
+            "content"=>$comment->getContent(),
+            "id"=>$comment->getId()
+        ]);
+
+        return $this->find($comment->getId());
+    }
 }

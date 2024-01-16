@@ -16,6 +16,7 @@ class ArticleController extends \Core\Controller\Controller
 
 
         $articleRepository = new ArticleRepository();
+       // $this->addFlash("coucou tu es sur la page des articles" ,"danger");
 
         return $this->render("article/index", [
             "pageTitle"=>"Les articles",
@@ -50,6 +51,12 @@ class ArticleController extends \Core\Controller\Controller
 
     public function create():Response
     {
+        if(!$this->getUser()){
+
+            $this->addFlash("connecte toi d'abord coco", "warning");
+          return  $this->redirect("?type=article&action=index");
+        }
+
         $title = null;
         $content = null;
 
@@ -70,6 +77,7 @@ class ArticleController extends \Core\Controller\Controller
 
             $article->setTitle($title);
             $article->setContent($content);
+            $article->setAuthor($this->getUser());
 
             $articleRepository = new ArticleRepository();
 
@@ -79,7 +87,6 @@ class ArticleController extends \Core\Controller\Controller
 
 
         }
-
 
         return $this->render("article/create", [
             "pageTitle"=>"Nouvel Article"
@@ -163,9 +170,11 @@ class ArticleController extends \Core\Controller\Controller
         $article = $articleRepository->find($id);
 
         if(!$article){
+            $this->addFlash("pas trouvé cet article que vous voulez supprimer", "danger");
             return  $this->redirect();
         }
 
+        $this->addFlash("article bien supprimé bravo");
         $articleRepository->delete($article);
 
         return  $this->redirect("?type=article&action=index");

@@ -3,6 +3,7 @@
 namespace Core\Kernel;
 
 use Core\Environment\DotEnv;
+use Core\Session\Session;
 
 class Kernel
 {
@@ -16,6 +17,7 @@ class Kernel
             \Core\Debugging\Debugger::run();
         }
 
+        Session::start();
 
     $type = "home";
     $action = "index";

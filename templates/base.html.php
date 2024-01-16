@@ -1,3 +1,9 @@
+<?php
+
+use Core\Session\Flash;
+use Core\Session\Session;
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -24,14 +30,38 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="?type=article&action=create">Nouvel Article</a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="?type=security&action=register">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="?type=security&action=signIn">Sign In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="?type=security&action=signOut">Sign Out</a>
+                </li>
+                <?php if(Session::userConnected()) { ?>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Salut <?= Session::user()['authenticator'] ?> </a>
+                </li>
+                <?php } ?>
 
             </ul>
 
         </div>
     </div>
 </nav>
+
+<div class="container">
+    <?php foreach (Flash::getFlashes() as $flash) : ?>
+    <div class="alert alert-<?= $flash['color'] ?> alert-dismissible fade show" role="alert">
+        <?= $flash['message'] ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <?php  endforeach; ?>
+</div>
 <div class="container mt-5">
+
 
     <?= $content ?>
 </div>

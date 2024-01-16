@@ -16,7 +16,8 @@
     <?php foreach ($article->getComments() as $comment): ?>
 
     <p><strong><?= $comment->getContent() ?></strong></p>
-
+        <a href="?type=comment&action=delete&id=<?= $comment->getId() ?>" class="btn btn-danger">Supprimer</a>
+        <a href="?type=comment&action=update&id=<?= $comment->getId() ?>" class="btn btn-warning">Editer</a>
     <?php endforeach; ?>
 
 

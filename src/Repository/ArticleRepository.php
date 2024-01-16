@@ -13,8 +13,9 @@ class ArticleRepository extends \Core\Repository\Repository
     public function save(Article $article): object
     {
 
-        $query = $this->pdo->prepare("INSERT INTO $this->tableName SET title = :title, content = :content");
+        $query = $this->pdo->prepare("INSERT INTO $this->tableName SET title = :title, content = :content, user_id= :user_id");
         $query->execute([
+            "user_id"=>$article->getUserId(),
             "title"=>$article->getTitle(),
             "content"=>$article->getContent()
         ]);

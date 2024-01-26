@@ -1,3 +1,8 @@
+<?php
+
+use Core\Session\Session;
+
+?>
 <h1>Les articles</h1>
 
 
@@ -7,9 +12,13 @@
     <p>Contenu : <?= $article->getContent() ?></p>
 
     <a href="?type=article&action=index" class="btn btn-secondary">Retour</a>
+
+    <?php if(Session::userConnected()){  ?>
+            <?php if(Session::user() == $article->getAuthor()){ ?>
     <a href="?type=article&action=update&id=<?= $article->getId() ?>" class="btn btn-warning">Editer</a>
     <a href="?type=article&action=delete&id=<?= $article->getId() ?>" class="btn btn-danger">Supprimer</a>
-
+        <?php } ?>
+    <?php } ?>
 </div>
 
 <div class="border border-dark">

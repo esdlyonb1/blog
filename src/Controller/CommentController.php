@@ -64,6 +64,8 @@ class CommentController extends \Core\Controller\Controller
 
         if($comment)
         {
+            //$comment->get
+
             $idArticle = $comment->getArticleId();
             $commentRepository->delete($comment);
 

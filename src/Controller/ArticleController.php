@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use App\Repository\UserRepository;
 use Core\Http\Response;
 
 class ArticleController extends \Core\Controller\Controller
@@ -173,6 +174,16 @@ class ArticleController extends \Core\Controller\Controller
             $this->addFlash("pas trouvé cet article que vous voulez supprimer", "danger");
             return  $this->redirect();
         }
+
+
+        if($article->getAuthor() !== $this->getUser())
+        {
+            $this->addFlash("Ce n'est pas ton article, tu ne peux pas le supprimer");
+
+            return  $this->redirect("?type=article&action=index");
+
+        }
+
 
         $this->addFlash("article bien supprimé bravo");
         $articleRepository->delete($article);
